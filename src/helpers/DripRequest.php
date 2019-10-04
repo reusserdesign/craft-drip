@@ -222,7 +222,7 @@ class DripRequest
             'Accept: application/json',
             'Content-Type: application/json',
         ]);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Drip eCRM Connector Plugin');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Drip Plugin');
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_USERPWD, $this->token . ': ');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->verify_ssl);

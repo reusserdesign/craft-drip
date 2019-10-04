@@ -84,7 +84,11 @@ class Drip extends Plugin
         self::$plugin = $this;
 
         $view = Craft::$app->getView();
-        $view->registerJs($this->settings['dripSnippet'], View::POS_END);
+        $request = Craft::$app->getRequest();
+
+        if (!$request->isCpRequest) {
+            $view->registerJs($this->settings['dripSnippet'], View::POS_END);
+        }
 
         $this->initDripEvents();
 
