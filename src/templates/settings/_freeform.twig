@@ -1,0 +1,155 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Drip eCRM Connector plugin for Craft CMS 3.x
+ *
+ * Drip eCRM Connector Settings.twig
+ *
+ * @author    Extreme
+ * @copyright Copyright (c) 2019 Extreme
+ * @link      madebyextreme.com
+ * @package   Drip
+ * @since     1.0.0
+ */
+#}
+
+{% extends "drip/_layouts/settings" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+
+    <h2>{{ "{plugin} Events" | t('drip', {'plugin': 'Freeform Submission'}) }}</h2>
+
+    <p>{{ 'freeform_introduction' | t('drip' ) }}</p>
+
+    <p><a id="field-refresh" href="/actions/drip/settings/test-connection">{{ 'freeform_refresh_drip_fields' | t('drip') }}</a></p>
+
+    <input type="hidden" name="action" value="drip/settings/save-settings">
+
+    {{ redirectInput('drip/settings/freeform') }}
+
+    {{ csrfInput() }}
+
+    {% for form in craft.freeform.forms %}
+
+        {% set enabled = 0 %}
+
+        {% if settings['freeform'] and settings['freeform'][form.handle] is defined and settings['freeform'][form.handle]['enabled'] is defined and settings['freeform'][form.handle]['enabled'] == 1 %}
+
+            {% set enabled = 1 %}
+
+        {% endif %}
+
+        {{ forms.lightswitchField({
+            label: 'freeform_enable_label' | t( 'drip', { 'name': form.name} ),
+            instructions: 'freeform_enable_instruction' | t( 'drip', {'name': form.name}  ),
+            id: 'freeform_' ~ form.handle,
+            name: 'settings[freeform][' ~ form.handle ~ '][enabled]',
+            on: enabled
+        }) }}
+
+        <div class="b-settings-reveal {{ enabled ? 'active' : '' }}">
+
+            {% set formData = craft.freeform.form(form.handle) %}
+
+            {{ forms.textField({
+                label: 'drip_event_name' | t('drip'),
+                instructions: 'drip_event_name_default' | t('drip', {'default': form.handle ~ 'Submission' }),
+                id: 'freeform_' ~ form.handle ~ '_event',
+                name: 'settings[freeform][' ~ form.handle ~ '][event]',
+                value: settings['freeform'][form.handle]['event'] is defined ? settings['freeform'][form.handle]['event'] : ''
+            })
+            }}
+
+            {{ forms.textField({
+                label: 'freeform_event_tags_label' | t('drip'),
+                instructions: 'freeform_event_tags_instruction' | t('drip'),
+                id: 'freeform_' ~ form.handle ~ '_tags',
+                name: 'settings[freeform][' ~ form.handle ~ '][tags]',
+                value: settings['freeform'][form.handle]['tags'] is defined ? settings['freeform'][form.handle]['tags'] : ''
+            })
+            }}
+
+            {% set subscriber = 0 %}
+
+            {% if settings['freeform'] and settings['freeform'][form.handle] is defined and settings['freeform'][form.handle]['subscriber'] is defined and settings['freeform'][form.handle]['subscriber'] == 1 %}
+
+                {% set subscriber = 1 %}
+
+            {% endif %}
+
+            {{ forms.lightswitchField({
+                label: 'freeform_drip_create_heading' | t( 'drip', { 'name': form.name} ),
+                instructions: 'freeform_drip_create_instruction' | t( 'drip', {'name': form.name}  ),
+                id: 'freeform_subscriber_' ~ form.handle,
+                name: 'settings[freeform][' ~ form.handle ~ '][subscriber]',
+                on: subscriber
+            }) }}
+
+            <div class="b-settings-reveal {{ subscriber ? 'active' : '' }}">
+
+                {{ forms.selectField({
+                    label: 'freeform_drip_permission_heading' | t( 'drip', { 'name': form.name} ),
+                    instructions: 'freeform_drip_permission_instruction' | t( 'drip', {'name': form.name}  ),
+                    id: 'freeform_subscriber_permission_' ~ form.handle,
+                    name: 'settings[freeform][' ~ form.handle ~ '][permission]',
+                    value: settings['freeform'][form.handle]['permission'] is defined ? settings['freeform'][form.handle]['permission'] : '',
+                    options: craft.drip.formFields(formData)
+                }) }}
+
+                {{ forms.selectField({
+                    label: 'freeform_drip_email_heading' | t( 'drip', { 'name': form.name} ),
+                    instructions: 'freeform_drip_email_instruction' | t( 'drip', {'name': form.name}  ),
+                    id: 'freeform_subscriber_email_' ~ form.handle,
+                    name: 'settings[freeform][' ~ form.handle ~ '][email]',
+                    value: settings['freeform'][form.handle]['email'] is defined ? settings['freeform'][form.handle]['email'] : '',
+                    options: craft.drip.formFields(formData)
+                }) }}
+
+                <div class="field">
+                    <div class="heading">
+                        <label>{{ 'freeform_drip_mapping_heading' | t('drip') }}</label>
+                        <div class="instructions"><p>{{ 'freeform_drip_mapping_instruction' | t('drip') }}</p>
+                        </div>
+                    </div>
+
+                    <ul class="field-mapping">
+
+                        <li>
+                            <div class="field">
+                                <div class="heading">{{ 'freeform_field_heading' | t('drip') }}</div>
+                                <div class="input">{{ 'drip_field_heading' | t('drip') }}</div>
+                            </div>
+                        </li>
+
+                        {% for row in formData %}
+                            {% for field in row %}
+                                {% if field.handle %}
+                                    <li>
+                                        {{ forms.selectField({
+                                            label: field.label,
+                                            instructions: '',
+                                            id: 'freeform_' ~ form.handle ~ '_' ~ field.handle,
+                                            name: 'settings[freeform][' ~ form.handle ~ ']['~ field.handle ~']',
+                                            value: settings['freeform'][form.handle] is defined and settings['freeform'][form.handle][field.handle] is defined ? settings['freeform'][form.handle][field.handle] : '',
+                                            options: craft.drip.dripFields
+                                        }) }}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+    <div></div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#0D1431;}
+	.st1{fill:#FFFFFF;}
+</style>
+<title>drip_plugin_200x200px</title>
+<rect x="-3" y="-4" class="st0" width="206" height="206"/>
+<g>
+	<g id="drip-small">
+		<g id="drip-small-2">
+			<path class="st1" d="M152.9,114h-15.4v1.6c0.2,20.1-15.9,36.7-36,37c-20.1-0.3-36.2-16.9-36-37V114H50v1.6
+				c-0.2,28.6,22.8,52.1,51.4,52.4c28.7-0.3,51.7-23.8,51.4-52.4V114z"/>
+			<circle class="st1" cx="101.4" cy="90.1" r="10.3"/>
+			<circle class="st1" cx="132.3" cy="90.1" r="10.3"/>
+			<circle class="st1" cx="70.6" cy="90.1" r="10.3"/>
+			<path class="st1" d="M101.4,43.6l11,14.9h19.5c-9.1-12.4-19.3-23.9-30.5-34.4C90.3,34.6,80.1,46.1,70.9,58.5h19.5L101.4,43.6z"/>
+		</g>
+	</g>
+</g>
+</svg>

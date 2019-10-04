@@ -1,0 +1,57 @@
+{% extends "_layouts/cp" %}
+
+{% set selectedSubnavItem = 'settings' %}
+{% set fullPageForm = true %}
+
+{% set title = craft.drip.name ~ " " ~ ( "Settings" | t('drip') ) %}
+
+{% set navItems = [
+    {
+        'slug':'drip',
+        'title': 'Drip API' | t('drip')
+    },
+    {
+        'slug':'core',
+        'title': 'Core Events' | t('drip')
+    },
+] %}
+
+{% set freeformPlugin = craft.app.plugins.getPlugin('freeform', false) %}
+
+{% if freeformPlugin is not null and freeformPlugin.isInstalled %}
+
+    {% set navItems = navItems | merge([
+        {
+            'slug':'freeform',
+            'title':'Freeform Events' | t('drip')
+        }
+    ]) %}
+
+{% endif %}
+
+{% set selectedItem = craft.app.request.getSegment(3) ?: 'drip' %}
+{#<!--{% set docTitle = navItems[selectedItem].title~' - '~title %}-->#}
+
+{% block actionButton %}
+    <div class="buttons">
+        <div class="btngroup submit">
+            <input type="submit" class="btn submit" value="{{ 'Save'|t('freeform') }}">
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <nav>
+        <ul>
+            {% for id, item in navItems %}
+                {% if item.heading is defined %}
+                    <li class="heading"><span>{{ item.heading }}</span></li>
+                {% else %}
+                    <li>
+                        <a href="{{ url('drip/settings/'~item.slug) }}"{% if item.slug == selectedItem %} class="sel"{% endif %}>{{ item.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}

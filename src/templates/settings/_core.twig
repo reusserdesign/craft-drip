@@ -1,0 +1,211 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Drip eCRM Connector plugin for Craft CMS 3.x
+ *
+ * Drip eCRM Connector Settings.twig
+ *
+ * @author    Extreme
+ * @copyright Copyright (c) 2019 Extreme
+ * @link      madebyextreme.com
+ * @package   Drip
+ * @since     1.0.0
+ */
+#}
+
+{% extends "drip/_layouts/settings" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+
+    <h2>{{ "{plugin} Events" | t('drip', {'plugin': 'Core'}) }}</h2>
+
+    <p>{{ "Core events intro" | t('drip' ) }}</p>
+
+    <p><a id="field-refresh" href="/actions/drip/settings/test-connection">refresh drip fields</a></p>
+
+    <input type="hidden" name="action" value="drip/settings/save-settings">
+
+    {{ redirectInput('drip/settings/core') }}
+
+    {{ csrfInput() }}
+
+    <h3>User Account Creation</h3>
+
+    {% set enabled = 0 %}
+
+    {% if settings['core'] is defined and settings['core']['create'] is defined and settings['core']['create']['enabled'] is defined and settings['core']['create']['enabled'] == 1 %}
+
+        {% set enabled = 1 %}
+
+    {% endif %}
+
+    {{ forms.lightswitchField({
+        label: 'Enable {name}' | t( 'drip', { 'name': 'account creation'} ),
+        instructions: 'Enable to track events for the {name}' | t( 'drip', {'name': 'account creation'}  ),
+        id: 'core_create',
+        name: 'settings[core][create][enabled]',
+        on: enabled
+    }) }}
+
+    <div class="b-settings-reveal {{ enabled ? 'active' : '' }}">
+
+        {{ forms.textField({
+            label: 'Event name',
+            instructions: 'This will default to {name}' | t('drip', {'name':'Account Activated'}),
+            id: 'core_create_event',
+            name: 'settings[core][create][event]',
+            value: settings['core']['create']['event'] is defined ? settings['core']['create']['event'] : ''
+        })
+        }}
+
+    </div>
+
+    <h3>User Account Login</h3>
+
+    {% set enabled = 0 %}
+
+    {% if settings['core'] is defined and settings['core']['login'] is defined and settings['core']['login']['enabled'] is defined and settings['core']['login']['enabled'] == 1 %}
+
+        {% set enabled = 1 %}
+
+    {% endif %}
+
+    {{ forms.lightswitchField({
+        label: 'Enable {name}' | t( 'drip', { 'name': 'login'} ),
+        instructions: 'Enable to track events for the {name}' | t( 'drip', {'name': 'login'}  ),
+        id: 'core_login',
+        name: 'settings[core][login][enabled]',
+        on: enabled
+    }) }}
+
+    <div class="b-settings-reveal {{ enabled ? 'active' : '' }}">
+
+        {{ forms.textField({
+            label: 'Event name',
+            instructions: 'This will default to ',
+            id: 'core_login_event',
+            name: 'settings[core][login][event]',
+            value: settings['core']['login']['event'] is defined ? settings['core']['login']['event'] : ''
+        })
+        }}
+
+    </div>
+
+    <h3>User Account Logout</h3>
+
+    {% set enabled = 0 %}
+
+    {% if settings['core'] is defined and settings['core']['logout'] is defined and settings['core']['logout']['enabled'] is defined and settings['core']['logout']['enabled'] == 1 %}
+
+        {% set enabled = 1 %}
+
+    {% endif %}
+
+    {{ forms.lightswitchField({
+        label: 'Enable {name}' | t( 'drip', { 'name': 'logout'} ),
+        instructions: 'Enable to track events for the {name}' | t( 'drip', {'name': 'logout'}  ),
+        id: 'core_logout',
+        name: 'settings[core][logout][enabled]',
+        on: enabled
+    }) }}
+
+    <div class="b-settings-reveal {{ enabled ? 'active' : '' }}">
+
+        {{ forms.textField({
+            label: 'Event name',
+            instructions: 'This will default to ',
+            id: 'core_logout_event',
+            name: 'settings[core][logout][event]',
+            value: settings['core']['logout']['event'] is defined ? settings['core']['logout']['event'] : ''
+        })
+        }}
+
+    </div>
+
+    <h3>User Account</h3>
+
+    {% set enabledUpdate = 0 %}
+
+    {% if settings['core'] is defined and settings['core']['update'] is defined and settings['core']['update']['enabled'] is defined and settings['core']['update']['enabled'] == 1 %}
+
+        {% set enabledUpdate = 1 %}
+
+    {% endif %}
+
+    {{ forms.lightswitchField({
+        label: 'Enable {name}' | t( 'drip', { 'name': 'account updates'} ),
+        instructions: 'Enable to track events for the {name}' | t( 'drip', {'name': 'account updates'}  ),
+        id: 'core_update',
+        name: 'settings[core][update][enabled]',
+        on: enabledUpdate
+    }) }}
+
+    <div class="b-settings-reveal {{ enabledUpdate ? 'active' : '' }}">
+
+        {{ forms.textField({
+            label: 'Event name',
+            instructions: 'This will default to ',
+            id: 'core_update_event',
+            name: 'settings[core][update][event]',
+            value: settings['core']['update']['event'] is defined ? settings['core']['update']['event'] : ''
+            })
+        }}
+
+        <h3>Drip Field Mapping - Core User Fields</h3>
+
+        <ul class="field-mapping">
+            <li>
+                <div class="field">
+                    <div class="heading">Craft Field</div>
+                    <div class="input">Drip Field</div>
+                </div>
+            </li>
+            {% for field, label in settings.coreFieldsDefault %}
+                <li>
+                    {{ forms.selectField({
+                        label: field,
+                        instructions: '',
+                        id: 'coreFieldsDefault_' ~ field,
+                        name: 'settings[coreFieldsDefault]['~ field ~']',
+                        value: settings['coreFieldsDefault'][field] is defined ? settings['coreFieldsDefault'][field] : '',
+                        options: craft.drip.dripFields
+                    }) }}
+                </li>
+            {% endfor %}
+
+        </ul>
+
+        <h3>Drip Field Mapping - Custom User Fields</h3>
+
+        <ul class="field-mapping">
+            <li>
+                <div class="field">
+                    <div class="heading">Craft Field</div>
+                    <div class="input">Drip Field</div>
+                </div>
+            </li>
+            {% for tab in currentUser.getFieldLayout().getTabs() %}
+                {% for field in tab.getFields() %}
+                    <li>
+                        {{ forms.selectField({
+                            label: field.name,
+                            instructions: '',
+                            id: 'coreFieldsCustom_' ~ tab.uid ~ '_' ~ field.handle,
+                            name: 'settings[coreFieldsCustom][' ~ tab.uid ~ ']['~ field.handle ~']',
+                            value: settings['coreFieldsCustom'][tab.uid] is defined ? settings['coreFieldsCustom'][tab.uid][field.handle] : '',
+                            options: craft.drip.dripFields
+                        }) }}
+                    </li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+
+    </div>
+
+
+
+    <div>&nbsp;</div>
+
+{% endblock %}

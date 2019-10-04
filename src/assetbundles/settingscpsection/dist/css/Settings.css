@@ -1,0 +1,63 @@
+/**
+ * Drip eCRM Connector plugin for Craft CMS
+ *
+ * Settings Field CSS
+ *
+ * @author    Extreme
+ * @copyright Copyright (c) 2019 Extreme
+ * @link      madebyextreme.com
+ * @package   Drip
+ * @since     1.0.0
+ */
+
+
+.b-settings-reveal {
+
+    max-height: 0;
+    transition: all ease 0.5s;
+    overflow: hidden;
+    margin: 0 0 2rem;
+    border-bottom: 1px solid lightgrey;
+    padding: 0 2rem;
+
+}
+
+.b-settings-reveal .b-settings-reveal {
+    border: none;
+}
+
+.b-settings-reveal.active {
+
+    height: auto;
+    max-height: 100%;
+    padding-bottom: 2rem;
+
+}
+
+.field-mapping {
+    margin-top: 2rem;
+}
+
+.field-mapping li {
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.field-mapping li:first-child {
+    color: #8f98a3;
+}
+
+.field-mapping li:last-child {
+    border-bottom: none;
+}
+
+.field-mapping .field {
+    display: flex;
+    align-items: center;
+
+}
+
+.field-mapping .heading {
+    width: 200px;
+}

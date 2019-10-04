@@ -1,0 +1,43 @@
+{
+    "name": "extreme/drip",
+    "description": "Drip connector for Craft 3.x",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "drip"
+    ],
+    "support": {
+        "docs": "https://github.com/extreme-creations/drip/blob/master/README.md",
+        "issues": "https://github.com/extreme-creations/drip/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Extreme",
+            "homepage": "madebyextreme.com"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "extreme\\drip\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Drip",
+        "handle": "drip",
+        "hasCpSettings": true,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/extreme-creations/drip/master/CHANGELOG.md",
+        "components": {
+            "dripService": "extreme\\drip\\services\\DripService"
+        },
+        "class": "extreme\\drip\\Drip"
+    }
+}

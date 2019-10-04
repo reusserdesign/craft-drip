@@ -1,0 +1,58 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Drip eCRM Connector plugin for Craft CMS 3.x
+ *
+ * Drip eCRM Connector index.twig
+ *
+ * @author    Extreme
+ * @copyright Copyright (c) 2019 Extreme
+ * @link      madebyextreme.com
+ * @package   Drip
+ * @since     1.0.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("extreme\\drip\\assetbundles\\drip\\DripAsset") %}
+{% do view.registerAssetBundle("extreme\\drip\\assetbundles\\dashboardcpsection\\DashboardCPSectionAsset") %}
+
+{# Link for the ? icon at the bottom of the page #}
+{% set docsUrl = "https://github.com/extreme-creations/drip/blob/master/README.md" %}
+
+{# The title of this CP section #}
+{% set title = "Drip eCRM Connector | Dashboard" %}
+
+{# The URL to this plugin's base CP section #}
+{% set pluginCpUrl = url('drip') %}
+
+{# Get a URL to an image in our AssetBundle #}
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@extreme/drip/assetbundles/dashboardcpsection/dist', true) ~ '/img/Dashboard-icon.svg' %}
+
+{% set subnav = {
+    "dashboard": { label: "Dashboard"|t('drip'), url: url(pluginCpUrl ~ '/dashboard') },
+    "settings": { label: "Settings"|t('drip'), url: url(pluginCpUrl ~ '/settings') },
+
+} %}
+{% set selectedSubnavItem = 'dashboard' %}
+
+{% set crumbs = [
+    { label: "Drip eCRM Connector", url: url(pluginCpUrl) },
+    { label: "Dashboard"|t('drip'), url: url(pluginCpUrl ~ '/dashboard') },
+] %}
+
+{# Content that should appear in the page header#}
+{% set extraPageHeaderHtml %}
+    <div class="buttons">
+        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('drip') }}</a>
+    </div>
+{% endset %}
+
+{# The content of the CP Section#}
+{% set content %}
+    <h2>{{ "Dashboard CP Section body goes here"|t('drip') }}</h2>
+    <img src="{{ iconUrl }}" height="64" width="64" />
+    <p class="textline"></p>
+{% endset %}

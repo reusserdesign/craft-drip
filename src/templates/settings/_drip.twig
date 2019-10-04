@@ -1,0 +1,62 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Drip eCRM Connector plugin for Craft CMS 3.x
+ *
+ * Drip eCRM Connector Settings.twig
+ *
+ * @author    Extreme
+ * @copyright Copyright (c) 2019 Extreme
+ * @link      madebyextreme.com
+ * @package   Drip
+ * @since     1.0.0
+ */
+#}
+
+{% extends "drip/_layouts/settings" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+
+    <h2>{{ "{plugin} Settings" | t('drip', {'plugin': 'Drip API'}) }}</h2>
+    <p>You can override these vales per environment by defining values in <code>config/{{ craft.drip.handle }}.php</code>
+    <input type="hidden" name="action" value="drip/settings/save-settings">
+
+    {{ redirectInput('drip/settings/drip') }}
+
+    {{ csrfInput() }}
+
+    {{ forms.textField({
+        label: 'drip_api_token_label' | t('drip'),
+        instructions: 'drip_api_token_instruction' | t('drip'),
+        id: 'dripApiToken',
+        name: 'settings[dripApiToken]',
+        value: settings['dripApiToken']})
+    }}
+
+    {{ forms.textField({
+        label: 'drip_account_id_label' | t('drip'),
+        instructions: 'drip_account_id_instruction' | t('drip'),
+        id: 'dripAccountId',
+        name: 'settings[dripAccountId]',
+        value: settings['dripAccountId']})
+    }}
+
+    <p><a id="api-test" href="/actions/drip/settings/test-connection">test API connection</a></p>
+
+
+    {{ forms.textareaField({
+        label: 'drip_snippet_label' | t('drip'),
+        instructions: 'drip_snippet_instruction' | t('drip'),
+        id: 'dripSnippet',
+        name: 'settings[dripSnippet]',
+        value: settings['dripSnippet'],
+        rows:          12,
+        cols:          50
+        })
+    }}
+
+
+
+{% endblock %}
