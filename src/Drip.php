@@ -47,7 +47,9 @@ use yii\web\View;
  */
 class Drip extends Plugin
 {
-    // Static Properties
+    const TRANSLATION_CATEGORY = 'drip';
+
+  // Static Properties
     // =========================================================================
 
     /**
@@ -136,6 +138,19 @@ class Drip extends Plugin
             __METHOD__
         );
     }
+
+  /**
+   * @param string $message
+   * @param array $params
+   * @param string $language
+   *
+   * @return string
+   */
+    public static function t(string $message, array $params = [], string $language = null): string
+    {
+        return \Craft::t(self::TRANSLATION_CATEGORY, $message, $params, $language);
+    }
+
 
     // Protected Methods
     // =========================================================================
@@ -265,7 +280,5 @@ class Drip extends Plugin
                 Drip::$plugin->dripService->addFormSubmission($event);
             }
         );
-
-
     }
 }
