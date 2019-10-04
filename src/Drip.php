@@ -63,6 +63,13 @@ class Drip extends Plugin
      */
     public $schemaVersion = '1.0.0';
 
+    /**
+     *  Holds the api connection
+     */
+
+    public $drip = null;
+
+
     // Public Methods
     // =========================================================================
 
@@ -84,8 +91,7 @@ class Drip extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['siteActionTrigger1'] = 'drip-ecrm-connector/drip';
-                $event->rules['restore-cart'] = 'drip-ecrm-connector/drip/restore-cart';
+                $event->rules['siteActionTrigger1'] = 'drip/drip';
             }
         );
 
@@ -94,11 +100,10 @@ class Drip extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['drip-ecrm-connector/settings'] = 'drip-ecrm-connector/settings/load-settings';
-                $event->rules['drip-ecrm-connector/settings/drip'] = 'drip-ecrm-connector/settings/load-settings';
-                $event->rules['drip-ecrm-connector/settings/core'] = 'drip-ecrm-connector/settings/load-settings';
-                $event->rules['drip-ecrm-connector/settings/commerce'] = 'drip-ecrm-connector/settings/load-settings';
-                $event->rules['drip-ecrm-connector/settings/freeform'] = 'drip-ecrm-connector/settings/load-settings';
+                $event->rules['drip/settings'] = 'drip/settings/load-settings';
+                $event->rules['drip/settings/drip'] = 'drip/settings/load-settings';
+                $event->rules['drip/settings/core'] = 'drip/settings/load-settings';
+                $event->rules['drip/settings/freeform'] = 'drip/settings/load-settings';
             }
         );
 
@@ -172,7 +177,7 @@ class Drip extends Plugin
             'url' => 'drip/dashboard',
         ];
 
-        $subNavs['settigns'] = [
+        $subNavs['settings'] = [
             'label' => 'Settings',
             'url' => 'drip/settings',
         ];

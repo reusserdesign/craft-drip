@@ -1,0 +1,29 @@
+{
+  "pluginName": "Drip",
+  "pluginDescription": "Drip plugin",
+  "pluginVersion": "1.0.0",
+  "pluginAuthorName": "Extreme",
+  "pluginVendorName": "Extreme",
+  "pluginAuthorUrl": "madebyextreme.com",
+  "pluginAuthorGithub": "extreme-creations",
+  "codeComments": "yes",
+  "pluginComponents": [
+    "controllers",
+    "cpsection",
+    "services",
+    "settings"
+  ],
+  "consolecommandName": "",
+  "controllerName": "Drip",
+  "cpsectionName": "index,dashboard",
+  "elementName": "",
+  "fieldName": "",
+  "modelName": "",
+  "purchasableName": "",
+  "recordName": "",
+  "serviceName": "Events",
+  "taskName": "",
+  "utilityName": "",
+  "widgetName": "",
+  "apiVersion": "api_version_3_0"
+}
