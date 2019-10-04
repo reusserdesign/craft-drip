@@ -10,8 +10,6 @@
 
 namespace extreme\drip;
 
-use craft\records\Element;
-use craft\services\Elements;
 use extreme\drip\services\DripService as DripService;
 use extreme\drip\models\Settings;
 use extreme\drip\variables\DripVariable;
@@ -19,18 +17,18 @@ use extreme\drip\variables\DripVariable;
 use Craft;
 use craft\base\Plugin;
 use craft\services\Plugins;
+use craft\services\Elements;
 use craft\events\PluginEvent;
 use craft\web\UrlManager;
-use craft\services\Utilities;
-use craft\events\RegisterComponentTypesEvent;
+
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\twig\variables\CraftVariable;
 use craft\services\Users;
 use craft\events\UserEvent;
 
-use Solspace\Freeform\Events\Submissions\SubmitEvent;
 use Solspace\Freeform\Services\FormsService;
-use Solspace\Freeform\Services\SubmissionsService;
+use Solspace\Freeform\Events\Forms\AfterSubmitEvent;
+
 use yii\base\Event;
 use yii\web\User;
 use yii\web\View;
@@ -142,19 +140,6 @@ class Drip extends Plugin
             __METHOD__
         );
     }
-
-  /**
-   * @param string $message
-   * @param array $params
-   * @param string $language
-   *
-   * @return string
-   */
-    public static function t(string $message, array $params = [], string $language = null): string
-    {
-        return \Craft::t(self::TRANSLATION_CATEGORY, $message, $params, $language);
-    }
-
 
     // Protected Methods
     // =========================================================================
@@ -278,9 +263,9 @@ class Drip extends Plugin
          */
 
         Event::on(
-            SubmissionsService::class,
-            SubmissionsService::EVENT_AFTER_SUBMIT,
-            function (SubmitEvent $event) {
+            FormsService::class,
+            FormsService::EVENT_AFTER_SUBMIT,
+            function (AfterSubmitEvent $event) {
                 Drip::$plugin->dripService->addFormSubmission($event);
             }
         );

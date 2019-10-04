@@ -49,7 +49,7 @@ return [
   'drip_snippet_instruction' => 'Paste your javascript snippet here and it will be added to all pages.',
   'drip_event_name' => 'Event Name',
   'drip_event_name_default' => 'This will default to {default}',
-  'event_freeform_submission' => 'Freeform Submission',
+  'event_freeform_submission' => '{formName} Freeform Submission',
   'event_core_create' => 'Account Activated',
   'event_core_login' => 'User Account Login',
   'event_core_logout' => 'User Account Logout',

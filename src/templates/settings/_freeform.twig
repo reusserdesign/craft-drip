@@ -51,25 +51,9 @@
 
         <div class="b-settings-reveal {{ enabled ? 'active' : '' }}">
 
-            {% set formData = craft.freeform.form(form.handle) %}
+          <p>The Drip event will be named <strong>{{ 'event_freeform_submission' | t('drip', {'formName': form.name }) }}</strong></p>
 
-            {{ forms.textField({
-                label: 'drip_event_name' | t('drip'),
-                instructions: 'drip_event_name_default' | t('drip', {'default': form.handle ~ 'Submission' }),
-                id: 'freeform_' ~ form.handle ~ '_event',
-                name: 'settings[freeform][' ~ form.handle ~ '][event]',
-                value: settings['freeform'][form.handle]['event'] is defined ? settings['freeform'][form.handle]['event'] : ''
-            })
-            }}
-
-            {{ forms.textField({
-                label: 'freeform_event_tags_label' | t('drip'),
-                instructions: 'freeform_event_tags_instruction' | t('drip'),
-                id: 'freeform_' ~ form.handle ~ '_tags',
-                name: 'settings[freeform][' ~ form.handle ~ '][tags]',
-                value: settings['freeform'][form.handle]['tags'] is defined ? settings['freeform'][form.handle]['tags'] : ''
-            })
-            }}
+          {% set formData = craft.freeform.form(form.handle) %}
 
             {% set subscriber = 0 %}
 

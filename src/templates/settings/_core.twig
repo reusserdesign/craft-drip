@@ -49,19 +49,6 @@
         on: enabled
     }) }}
 
-    <div class="b-settings-reveal {{ enabled ? 'active' : '' }}">
-
-        {{ forms.textField({
-            label: 'Event name',
-            instructions: 'This will default to {name}' | t('drip', {'name':'Account Activated'}),
-            id: 'core_create_event',
-            name: 'settings[core][create][event]',
-            value: settings['core']['create']['event'] is defined ? settings['core']['create']['event'] : ''
-        })
-        }}
-
-    </div>
-
     <h3>User Account Login</h3>
 
     {% set enabled = 0 %}
@@ -80,19 +67,6 @@
         on: enabled
     }) }}
 
-    <div class="b-settings-reveal {{ enabled ? 'active' : '' }}">
-
-        {{ forms.textField({
-            label: 'Event name',
-            instructions: 'This will default to ',
-            id: 'core_login_event',
-            name: 'settings[core][login][event]',
-            value: settings['core']['login']['event'] is defined ? settings['core']['login']['event'] : ''
-        })
-        }}
-
-    </div>
-
     <h3>User Account Logout</h3>
 
     {% set enabled = 0 %}
@@ -110,19 +84,6 @@
         name: 'settings[core][logout][enabled]',
         on: enabled
     }) }}
-
-    <div class="b-settings-reveal {{ enabled ? 'active' : '' }}">
-
-        {{ forms.textField({
-            label: 'Event name',
-            instructions: 'This will default to ',
-            id: 'core_logout_event',
-            name: 'settings[core][logout][event]',
-            value: settings['core']['logout']['event'] is defined ? settings['core']['logout']['event'] : ''
-        })
-        }}
-
-    </div>
 
     <h3>User Account</h3>
 
@@ -143,15 +104,6 @@
     }) }}
 
     <div class="b-settings-reveal {{ enabledUpdate ? 'active' : '' }}">
-
-        {{ forms.textField({
-            label: 'Event name',
-            instructions: 'This will default to ',
-            id: 'core_update_event',
-            name: 'settings[core][update][event]',
-            value: settings['core']['update']['event'] is defined ? settings['core']['update']['event'] : ''
-            })
-        }}
 
         <h3>Drip Field Mapping - Core User Fields</h3>
 
@@ -175,31 +127,6 @@
                 </li>
             {% endfor %}
 
-        </ul>
-
-        <h3>Drip Field Mapping - Custom User Fields</h3>
-
-        <ul class="field-mapping">
-            <li>
-                <div class="field">
-                    <div class="heading">Craft Field</div>
-                    <div class="input">Drip Field</div>
-                </div>
-            </li>
-            {% for tab in currentUser.getFieldLayout().getTabs() %}
-                {% for field in tab.getFields() %}
-                    <li>
-                        {{ forms.selectField({
-                            label: field.name,
-                            instructions: '',
-                            id: 'coreFieldsCustom_' ~ tab.uid ~ '_' ~ field.handle,
-                            name: 'settings[coreFieldsCustom][' ~ tab.uid ~ ']['~ field.handle ~']',
-                            value: settings['coreFieldsCustom'][tab.uid] is defined ? settings['coreFieldsCustom'][tab.uid][field.handle] : '',
-                            options: craft.drip.dripFields
-                        }) }}
-                    </li>
-                {% endfor %}
-            {% endfor %}
         </ul>
 
     </div>

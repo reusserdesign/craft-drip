@@ -91,7 +91,7 @@ class SettingsController extends Controller
         $plugin->setSettings($postData);
 
         if (\Craft::$app->plugins->savePluginSettings($plugin, $postData)) {
-            \Craft::$app->session->setNotice(Drip::t('Settings Saved'));
+            \Craft::$app->session->setNotice(\Craft::t('drip', 'Settings Saved'));
             return $this->redirectToPostedUrl();
         }
 

@@ -17,6 +17,7 @@ use extreme\drip\Drip;
 use extreme\drip\helpers\DripRequest;
 use extreme\drip\helpers\Dataset;
 use extreme\drip\helpers\DripException;
+use Solspace\Freeform\Events\Forms\AfterSubmitEvent;
 use Solspace\Freeform\Events\Submissions\SubmitEvent;
 use Solspace\Freeform\Library\Composer\Components\Fields\EmailField;
 
@@ -101,13 +102,13 @@ class DripService extends Component
         $settings = Drip::$plugin->getSettings();
 
         if ($settings->core[$event]['enabled'] == 1) {
-            $eventName = strlen($settings->core[$event]['event']) > 0 ? $settings->core[$event]['event'] : Craft::t('drip', 'event_core_' . $event);
+            $eventName = Craft::t('drip', 'event_core_' . $event);
             $eventData = new Dataset('events', [
                 'action' => $eventName,
                 'email' => $user->email,
                 'occurred_at' => date('c'),
                 'properties' => [
-                    'source' => 'Drip eCRM Connector Plugin'
+                    'source' => 'Drip Plugin'
                 ]
             ]);
 
@@ -140,7 +141,7 @@ class DripService extends Component
      * @return bool
      */
 
-    public function addFormSubmission(SubmitEvent $event)
+    public function addFormSubmission(AfterSubmitEvent $event)
     {
         $result = [];
         $settings = Drip::$plugin->getSettings();
@@ -158,13 +159,13 @@ class DripService extends Component
         $formIsEnabled = $this->settingIsEnabled($settings, $formHandle, 'enabled');
 
         if ($user->email && $formIsEnabled) {
-            $eventName = strlen($settings->freeform[$formHandle]['event']) > 0 ? $settings->freeform[$formHandle]['event'] : Craft::t('drip', 'event_freeform_submission');
+            $eventName = Craft::t('drip', 'event_freeform_submission', ['formName' => $form->getName()]);
             $eventData = new Dataset('events', [
                 'action' => $eventName,
                 'email' => $user->email,
                 'occurred_at' => date('c'),
                 'properties' => [
-                    'source' => 'Drip eCRM Connector Plugin',
+                    'source' => 'Drip Plugin',
                     'form' => $formHandle
                 ]
             ]);
@@ -200,9 +201,9 @@ class DripService extends Component
             }
 
             if ($gdprConsentRequired && $gdprConsentProvided) {
-                $this->updateDripSubscriberFreeform($form, 'granted', $gdprConsentText);
+                $this->updateDripSubscriberFreeform($formHandle, $formFields, 'granted', $gdprConsentText);
             } else if (!$gdprConsentRequired) {
-                $this->updateDripSubscriberFreeform($form);
+                $this->updateDripSubscriberFreeform($formHandle, $formFields);
             }
         }
 
@@ -252,22 +253,21 @@ class DripService extends Component
 
     /**
      * Updates a drip subscriber using the field mapping defined in the Freeform settings
-     *
-     * @param $form
+     * @param $formHandle string
+     * @param $formFields array
      * @param $gdprConsent
      * @param $gdprText
      * @return mixed
      */
 
-    public function updateDripSubscriberFreeform($form, $gdprConsent = null, $gdprText = null)
+    public function updateDripSubscriberFreeform(string $formHandle, array $formFields, $gdprConsent = null, $gdprText = null)
     {
 
         $fields = [];
         $settings = Drip::$plugin->getSettings();
 
-        $formFields = $form->getlayout()->getFields();
         $formValues = [];
-        $mappedFields = $settings['freeform'][$form->getHandle()];
+        $mappedFields = $settings['freeform'][$formHandle];
 
         // create array of formValues in format handle=>value
 
