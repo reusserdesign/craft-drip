@@ -2,3 +2,4 @@
 /craft/storage/*
 !/craft/storage/logo/*
 .idea
+vendor
