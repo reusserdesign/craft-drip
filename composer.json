@@ -42,6 +42,7 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3",
-        "phpmd/phpmd": "^2"
+        "phpmd/phpmd": "^2",
+        "overtrue/phplint": "^1.1"
     }
 }
