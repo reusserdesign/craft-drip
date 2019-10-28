@@ -51,6 +51,12 @@ class DripVariable
         return Drip::getInstance()->handle;
     }
 
+    public function dripAccountId(): string
+    {
+        return Drip::getInstance()->getSettings()->getDripAccountId();
+    }
+
+
   /**
    * Returns an array of core and custom Drip fields
    *
