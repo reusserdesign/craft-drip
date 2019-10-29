@@ -18,4 +18,4 @@ modules:
       plugins: []
       cleanup: true
       transaction: true
-      dbSetup: {clean: true, setupCraft: true}
+      dbSetup: {clean: false, setupCraft: false}
