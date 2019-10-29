@@ -2,7 +2,9 @@
 
 namespace extreme\drip\helpers;
 
-class DripException extends \Exception
+use Exception;
+
+class DripException extends Exception
 {
 
 }

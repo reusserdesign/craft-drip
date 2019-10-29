@@ -10,17 +10,17 @@ use UnitTester;
 
 class DripVariableTest extends Unit
 {
-  /**
-   * @var UnitTester
-   */
+    /**
+     * @var UnitTester
+     */
     protected $tester;
 
-  /** @test * */
+    /** @test * */
     public function testDripAccountId()
     {
         $drip = new Drip('drip');
         $drip->setSettings([
-        'dripAccountId' => '1234',
+            'dripAccountId' => '1234',
         ]);
         $drip->init();
 
@@ -46,11 +46,6 @@ class DripVariableTest extends Unit
 
         $output = (int) Craft::$app->getView()->renderString($template);
 
-        $this->assertThat($output, $this->logicalAnd(
-            $this->isType('int'),
-            $this->greaterThan(0)
-        ));
+        $this->assertGreaterThan(0, $output);
     }
-
-
 }

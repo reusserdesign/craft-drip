@@ -12,14 +12,15 @@ class ExampleTest extends Unit
   /**
    * @var UnitTester
    */
-  protected $tester;
+    protected $tester;
 
-  public function testExample()
-  {
-    Craft::$app->setEdition(Craft::Pro);
+    public function testExample()
+    {
+        Craft::$app->setEdition(Craft::Pro);
 
-    $this->assertSame(
-      Craft::Pro,
-      Craft::$app->getEdition());
-  }
+        $this->assertSame(
+            Craft::Pro,
+            Craft::$app->getEdition()
+        );
+    }
 }

@@ -20,6 +20,7 @@ use extreme\drip\helpers\DripException;
 use Solspace\Freeform\Events\Forms\AfterSubmitEvent;
 use Solspace\Freeform\Events\Submissions\SubmitEvent;
 use Solspace\Freeform\Library\Composer\Components\Fields\EmailField;
+use yii\base\InvalidConfigException;
 
 /**
  * @author    Extreme
@@ -62,7 +63,7 @@ class DripService extends Component
    *
    * @return array
    * @throws DripException
-   * @throws \yii\base\InvalidConfigException
+   * @throws InvalidConfigException
    */
 
     public function getCustomFields()
@@ -77,7 +78,7 @@ class DripService extends Component
    *
    * @return array
    * @throws DripException
-   * @throws \yii\base\InvalidConfigException
+   * @throws InvalidConfigException
    */
 
     public function getCustomEvents()
@@ -137,7 +138,7 @@ class DripService extends Component
      * Record Freeform form submission event
      * if subscriber form option enabled (and GDPR permission is granted) also create or update subscriber
      *
-     * @param $event SubmitEvent
+     * @param AfterSubmitEvent $event SubmitEvent
      * @return bool
      */
 
@@ -253,6 +254,7 @@ class DripService extends Component
 
     /**
      * Updates a drip subscriber using the field mapping defined in the Freeform settings
+     *
      * @param $formHandle string
      * @param $formFields array
      * @param $gdprConsent
@@ -302,7 +304,6 @@ class DripService extends Component
             } else {
                 $fields['custom_fields'][$dripField] = $formValues[$freeformField];
             }
-
         }
 
         // assign gdpr consent values if set
