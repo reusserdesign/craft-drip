@@ -19,17 +19,16 @@
 
 {% block content %}
 
-    <h2>{{ "{plugin} Events" | t('drip', {'plugin': 'Core'}) }}</h2>
-
-    <p>{{ "Core events intro" | t('drip' ) }}</p>
-
-    <p><a id="field-refresh" href="/actions/drip/settings/test-connection">refresh drip fields</a></p>
-
-    <input type="hidden" name="action" value="drip/settings/save-settings">
-
     {{ redirectInput('drip/settings/core') }}
-
     {{ csrfInput() }}
+
+    <h2>{{ "{plugin} Events" | t('drip', {'plugin': 'Core'}) }}</h2>
+    <p>{{ 'core_events_intro' | t('drip' ) }}</p>
+    <hr>
+    <p>{{ 'drip_field_refresh_intro' | t('drip') }}</p>
+    <p><a class="btn submit" id="field-refresh" href="/actions/drip/settings/test-connection">{{ 'drip_field_refresh' | t('drip') }}</a></p>
+    <input type="hidden" name="action" value="drip/settings/save-settings">
+    <hr>
 
     <h3>User Account Creation</h3>
 
@@ -49,6 +48,8 @@
         on: enabled
     }) }}
 
+    <hr>
+
     <h3>User Account Login</h3>
 
     {% set enabled = 0 %}
@@ -67,6 +68,8 @@
         on: enabled
     }) }}
 
+    <hr>
+
     <h3>User Account Logout</h3>
 
     {% set enabled = 0 %}
@@ -84,6 +87,8 @@
         name: 'settings[core][logout][enabled]',
         on: enabled
     }) }}
+
+    <hr>
 
     <h3>User Account</h3>
 
@@ -104,9 +109,7 @@
     }) }}
 
     <div class="b-settings-reveal {{ enabledUpdate ? 'active' : '' }}">
-
         <h3>Drip Field Mapping - Core User Fields</h3>
-
         <ul class="field-mapping">
             <li>
                 <div class="field">
@@ -114,6 +117,7 @@
                     <div class="input">Drip Field</div>
                 </div>
             </li>
+
             {% for field, label in settings.coreFieldsDefault %}
                 <li>
                     {{ forms.selectField({
@@ -128,10 +132,7 @@
             {% endfor %}
 
         </ul>
-
     </div>
-
-
 
     <div>&nbsp;</div>
 
