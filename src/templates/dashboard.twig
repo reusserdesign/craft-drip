@@ -46,13 +46,20 @@
 {# Content that should appear in the page header#}
 {% set extraPageHeaderHtml %}
     <div class="buttons">
-        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('drip') }}</a>
+        <a href="{{ pluginCpUrl }}/settings" class="btn submit add icon">{{ "Settings"|t('drip') }}</a>
     </div>
 {% endset %}
 
 {# The content of the CP Section#}
 {% set content %}
-    <h2>{{ "Dashboard CP Section body goes here"|t('drip') }}</h2>
-    <img src="{{ iconUrl }}" height="64" width="64" />
-    <p class="textline"></p>
+    <h2>{{ "Getting started" | t('drip') }}</h2>
+    <p>You will need an account at <a href="https://www.getdrip.com/">getdrip.com</a>to use this plugin.</p>
+    <p>Once you have signed up the plugin can be connected to your Drip account in the
+        <a href="/drip/settings/drip">settings</a> using the account ID and API key provided by Drip.
+    </p>
+    <h2>Features</h2>
+    <p>The plugin can be used record events in Drip when a visitor performs certain actions.</p>
+    <p>The actions available will depend on the edition of Craft you are using.</p>
+    <p>Features such as the ability to record events relating to user account creation will only be available if you are using Craft Pro edition.</p>
+    <p>If you are using Freeform plugin additional form events can also be tracked.</p>
 {% endset %}
