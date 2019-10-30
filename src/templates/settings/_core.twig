@@ -31,6 +31,8 @@
 
     {{ csrfInput() }}
 
+    {% if CraftEdition == CraftPro %}
+
     <h3>User Account Creation</h3>
 
     {% set enabled = 0 %}
@@ -48,6 +50,8 @@
         name: 'settings[core][create][enabled]',
         on: enabled
     }) }}
+
+    {% endif %}
 
     <h3>User Account Login</h3>
 
