@@ -14,5 +14,4 @@ class Batch extends Dataset
             ],
         ];
     }
-
 }

@@ -2,7 +2,9 @@
 
 namespace extreme\drip\helpers;
 
-class Dataset implements \JsonSerializable
+use JsonSerializable;
+
+class Dataset implements JsonSerializable
 {
     protected $label = false;
     protected $data  = [];
@@ -21,5 +23,4 @@ class Dataset implements \JsonSerializable
             ],
         ];
     }
-
 }

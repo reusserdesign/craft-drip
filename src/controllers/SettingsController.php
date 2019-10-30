@@ -15,6 +15,9 @@ use extreme\drip\Drip;
 use Craft;
 use craft\web\Controller;
 use extreme\drip\assetbundles\settingscpsection\SettingsCPSectionAsset;
+use extreme\drip\helpers\drip\DripException;
+use yii\base\InvalidConfigException;
+use yii\web\BadRequestHttpException;
 use yii\web\Response;
 
 /**
@@ -57,58 +60,55 @@ class SettingsController extends Controller
     /**
      * This action handles all settings requests and renders the required template
      *
-     * @return \yii\web\Response
-     * @throws \yii\base\InvalidConfigException
+     * @return Response
+     * @throws InvalidConfigException
      */
     public function actionLoadSettings(): Response
     {
-
         $this->view->registerAssetBundle(SettingsCPSectionAsset::class);
 
-        $template = \Craft::$app->request->getSegment(3);
+        $template = Craft::$app->request->getSegment(3);
 
         $settings = Drip::getInstance()->getSettings();
 
         $templatePath = 'drip/settings/_' . ($template ?: 'drip');
 
-          return $this->renderTemplate($templatePath, ['settings' => $settings]);
+        return $this->renderTemplate($templatePath, ['settings' => $settings]);
     }
 
 
     /**
-     * @return \yii\web\Response
-     * @throws \yii\web\BadRequestHttpException
+     * @return Response
+     * @throws BadRequestHttpException
      */
     public function actionSaveSettings()
     {
-
         $this->requirePostRequest();
 
-        $postData = \Craft::$app->request->post('settings', []);
+        $postData = Craft::$app->request->post('settings', []);
 
         $plugin = Drip::getInstance();
 
         $plugin->setSettings($postData);
 
-        if (\Craft::$app->plugins->savePluginSettings($plugin, $postData)) {
-            \Craft::$app->session->setNotice(\Craft::t('drip', 'Settings Saved'));
-            return $this->redirectToPostedUrl();
+        if (Craft::$app->plugins->savePluginSettings($plugin, $postData)) {
+            Craft::$app->session->setNotice(Craft::t('drip', 'Settings Saved'));
+        } else {
+            $errors = $plugin->getSettings()->getErrors();
+            Craft::$app->session->setError(json_encode($errors));
         }
-
-        $errors = $plugin->getSettings()->getErrors();
-
-        \Craft::$app->session->setError(json_encode($errors));
+        return $this->redirectToPostedUrl();
     }
 
     /**
      * Connect to Drip, retrieve list of custom fields and save to plugin settings
      *
      * @return Response
-     * @throws \extreme\drip\helpers\drip\DripException
+     * @throws InvalidConfigException
+     * @throws \extreme\drip\helpers\DripException
      */
     public function actionGetFields()
     {
-
         $fields = Drip::$plugin->dripService->getCustomFields();
 
         if (array_key_exists('custom_field_identifiers', $fields)) {

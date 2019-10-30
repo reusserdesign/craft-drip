@@ -117,4 +117,11 @@ class Settings extends Model
         return [];
     }
 
+    /**
+     * @return string
+     */
+    public function getDripAccountId(): string
+    {
+        return Craft::parseEnv($this->dripAccountId);
+    }
 }

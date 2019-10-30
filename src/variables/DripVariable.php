@@ -14,6 +14,7 @@ use craft\commerce\Plugin;
 use extreme\drip\Drip;
 
 use Craft;
+use extreme\drip\helpers\DripException;
 use Solspace\Freeform\Library\Composer\Components\Form;
 
 /**
@@ -33,33 +34,42 @@ class DripVariable
         return Drip::getInstance()->settings->getSettingsModel();
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
 
     public function name(): string
     {
         return Drip::getInstance()->name;
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
 
     public function handle(): string
     {
         return Drip::getInstance()->handle;
     }
 
-  /**
-   * Returns an array of core and custom Drip fields
-   *
-   * @return array
-   */
+    /**
+     * @return string
+     */
+
+    public function dripAccountId(): string
+    {
+        return Drip::getInstance()->getSettings()->getDripAccountId();
+    }
+
+
+    /**
+     * Returns an array of core and custom Drip fields
+     *
+     * @return array
+     */
 
     public function dripFields(): array
     {
-
         $fields = [
         'unmapped' => 'Not mapped'
         ];
@@ -75,16 +85,15 @@ class DripVariable
         return $fields;
     }
 
-  /**
-   * Returns an array of freeform form fields for the form provided
-   *
-   * @param $formData
-   * @return array
-   */
+    /**
+     * Returns an array of freeform form fields for the form provided
+     *
+     * @param $formData
+     * @return array
+     */
 
     public function formFields(Form $formData): array
     {
-
         $fields = ['unmapped' => 'Unmapped'];
 
         foreach ($formData->getLayout()->getFields() as $field) {
@@ -97,12 +106,13 @@ class DripVariable
         return $fields;
     }
 
-  /**
-   * Returns array of custom events from Drip
-   *
-   * @return array
-   * @throws \extreme\drip\helpers\DripException
-   */
+    /**
+     * Returns array of custom events from Drip
+     *
+     * @return array
+     * @throws DripException
+     * @throws \yii\base\InvalidConfigException
+     */
 
     public function dripEvents(): array
     {
@@ -117,11 +127,11 @@ class DripVariable
         return $events;
     }
 
-  /**
-   * Returns array of Commerce order statuses
-   *
-   * @return array
-   */
+    /**
+     * Returns array of Commerce order statuses
+     *
+     * @return array
+     */
 
     public function commerceOrderStatuses(): array
     {
@@ -135,13 +145,13 @@ class DripVariable
         return $result;
     }
 
-  /**
-   * Returns the array of Drip order statuses defined in settings
-   * These are fixed values in the Drip API and should not change
-   * but could be overridden in plugin config
-   *
-   * @return array
-   */
+    /**
+     * Returns the array of Drip order statuses defined in settings
+     * These are fixed values in the Drip API and should not change
+     * but could be overridden in plugin config
+     *
+     * @return array
+     */
 
     public function dripOrderEvents(): array
     {
