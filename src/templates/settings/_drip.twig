@@ -20,7 +20,7 @@
 {% block content %}
 
     <h2>{{ "{plugin} Settings" | t('drip', {'plugin': 'Drip API'}) }}</h2>
-    <p>You can override these vales per environment by defining values in <code>config/{{ craft.drip.handle }}.php</code>
+    <p>You can override these values per environment by defining values in <code>config/{{ craft.drip.handle }}.php</code>
     <input type="hidden" name="action" value="drip/settings/save-settings">
 
     {{ redirectInput('drip/settings/drip') }}
@@ -30,6 +30,7 @@
     {{ forms.textField({
         label: 'drip_api_token_label' | t('drip'),
         instructions: 'drip_api_token_instruction' | t('drip'),
+        tip: 'drip_api_token_tip' | t('drip'),
         id: 'dripApiToken',
         name: 'settings[dripApiToken]',
         value: settings['dripApiToken']})
@@ -38,17 +39,23 @@
     {{ forms.textField({
         label: 'drip_account_id_label' | t('drip'),
         instructions: 'drip_account_id_instruction' | t('drip'),
+        tip: 'drip_account_id_tip' | t('drip'),
         id: 'dripAccountId',
         name: 'settings[dripAccountId]',
         value: settings['dripAccountId']})
     }}
 
-    <p><a id="api-test" href="/actions/drip/settings/test-connection">test API connection</a></p>
-
+    {% if settings['dripAccountId'] and settings['dripApiToken'] %}
+        <p>{{ 'drip_save_to_test' | t('drip') }}</p>
+        <p>
+            <a class="btn submit" id="api-test" href="/actions/drip/settings/test-connection">{{ 'drip_test_api' | t('drip') }}</a>
+        </p>
+    {% endif %}
 
     {{ forms.textareaField({
         label: 'drip_snippet_label' | t('drip'),
         instructions: 'drip_snippet_instruction' | t('drip'),
+        tip: 'drip_snippet_tip' | t('drip'),
         id: 'dripSnippet',
         name: 'settings[dripSnippet]',
         value: settings['dripSnippet'],
@@ -56,7 +63,5 @@
         cols:          50
         })
     }}
-
-
 
 {% endblock %}
