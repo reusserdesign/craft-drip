@@ -47,10 +47,13 @@ return [
     'drip_field_heading' => 'Drip Field',
     'drip_account_id_label' => 'Drip Account ID',
     'drip_account_id_instruction' => 'You can find this in you Drip account in the General Info section',
+    'drip_account_id_tip' => '<a href="https://www.drip.com/learn/docs/manual/settings/account" class="go" rel="noopener" target="_blank">Help with account id</a>',
     'drip_api_token_label' => 'Drip API Token',
     'drip_api_token_instruction' => 'You can find this on your User Settings page of your account. You may need to ask Drip to enable API access for your account.',
+    'drip_api_token_tip' => '<a href="https://www.drip.com/learn/docs/manual/user-settings/settings" class="go" rel="noopener" target="_blank">Help with API tokens</a>',
     'drip_snippet_label' => 'Drip JavaScript Snippet',
     'drip_snippet_instruction' => 'Paste your javascript snippet here and it will be added to all pages.',
+    'drip_snippet_tip' => '<a href="https://www.drip.com/learn/docs/manual/settings/account" class="go" rel="noopener" target="_blank">Help with javascript snippet</a>',
     'drip_event_name' => 'Event Name',
     'drip_event_name_default' => 'This will default to {default}',
     'event_freeform_submission' => '{formName} Freeform Submission',
@@ -59,4 +62,6 @@ return [
     'event_core_logout' => 'User Account Logout',
     'event_core_update' => 'User Account Update',
     'Enable to track events for the {name}' => 'Enable to track events on the {name}',
+    'drip_save_to_test' => 'Save your API token and account id then click below to test the connection to Drip.',
+    'drip_test_api' => 'Test API Connection'
 ];

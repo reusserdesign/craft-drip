@@ -30,6 +30,8 @@
     <input type="hidden" name="action" value="drip/settings/save-settings">
     <hr>
 
+    {% if CraftEdition == CraftPro %}
+
     <h3>User Account Creation</h3>
 
     {% set enabled = 0 %}
@@ -49,6 +51,7 @@
     }) }}
 
     <hr>
+    {% endif %}
 
     <h3>User Account Login</h3>
 
