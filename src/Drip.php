@@ -33,7 +33,6 @@ use yii\base\Event;
 use yii\web\User;
 use yii\web\View;
 
-
 /**
  * Class Drip
  *
@@ -47,7 +46,7 @@ class Drip extends Plugin
 {
     const TRANSLATION_CATEGORY = 'drip';
 
-  // Static Properties
+    // Static Properties
     // =========================================================================
 
     /**
@@ -85,7 +84,12 @@ class Drip extends Plugin
         $request = Craft::$app->getRequest();
 
         if (!$request->isCpRequest) {
-            $view->registerJs($this->settings['dripSnippet'], View::POS_END);
+            $content = str_replace(["\r\n", "\r", "\n"], '', $this->settings['dripSnippet']);
+            if (strlen($content)) {
+                preg_match('/<script(.*?)>(.*?)<\/script>/', $content, $matches);
+                $snippet = array_key_exists(2, $matches) ? $matches[2] : $content;
+                $view->registerJs($snippet, View::POS_END);
+            }
         }
 
         $this->initDripEvents();
