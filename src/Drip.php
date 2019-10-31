@@ -265,12 +265,14 @@ class Drip extends Plugin
          * http://docs.solspace.com/craft/freeform/v2/developer/events-and-hooks.html#submissions
          */
 
-        Event::on(
-            FormsService::class,
-            FormsService::EVENT_AFTER_SUBMIT,
-            function (AfterSubmitEvent $event) {
-                Drip::$plugin->dripService->addFormSubmission($event);
-            }
-        );
+        if (Craft::$app->plugins->isPluginInstalled('freeform')) {
+            Event::on(
+                FormsService::class,
+                FormsService::EVENT_AFTER_SUBMIT,
+                function (AfterSubmitEvent $event) {
+                    Drip::$plugin->dripService->addFormSubmission($event);
+                }
+            );
+        }
     }
 }
