@@ -2,7 +2,7 @@
     "name": "extreme/drip",
     "description": "Drip connector for Craft 3.x",
     "type": "craft-plugin",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "keywords": [
         "craft",
         "cms",

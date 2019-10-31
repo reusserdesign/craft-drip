@@ -206,14 +206,13 @@ class Drip extends Plugin
 
         /**
          * Activate User Event
-         * Testing with EVENT_AFTER_UNSUSPEND_USER
-         * todo: Update to use EVENT_AFTER_ACTIVATE_USER for production
+         * can use EVENT_AFTER_UNSUSPEND_USER for easy testing via cms
          * Full list of user events: craft/vendor/craftcms/cms/src/services/Users.php
          */
 
         Event::on(
             Users::class,
-            Users::EVENT_AFTER_UNSUSPEND_USER,
+            Users::EVENT_AFTER_ACTIVATE_USER,
             function (UserEvent $event) {
                 Drip::$plugin->dripService->addCoreDripEvent('create', $event->user);
             }

@@ -57,14 +57,14 @@ class DripService extends Component
     // Public Methods
     // =========================================================================
 
-  /**
-   * Returns array of custom fields from Drip
-   * Call with Drip::$plugin->dripService->getCustomFields()
-   *
-   * @return array
-   * @throws DripException
-   * @throws InvalidConfigException
-   */
+    /**
+     * Returns array of custom fields from Drip
+     * Call with Drip::$plugin->dripService->getCustomFields()
+     *
+     * @return array
+     * @throws DripException
+     * @throws InvalidConfigException
+     */
 
     public function getCustomFields()
     {
@@ -72,14 +72,14 @@ class DripService extends Component
         return $dripCustomFields;
     }
 
-  /**
-   * Returns array of custom events from Drip
-   * Call with Drip::$plugin->dripService->getCustomEvents()
-   *
-   * @return array
-   * @throws DripException
-   * @throws InvalidConfigException
-   */
+    /**
+     * Returns array of custom events from Drip
+     * Call with Drip::$plugin->dripService->getCustomEvents()
+     *
+     * @return array
+     * @throws DripException
+     * @throws InvalidConfigException
+     */
 
     public function getCustomEvents()
     {
@@ -159,7 +159,7 @@ class DripService extends Component
 
         $formIsEnabled = $this->settingIsEnabled($settings, $formHandle, 'enabled');
 
-        if ($user->email && $formIsEnabled) {
+        if ($user && $formIsEnabled) {
             $eventName = Craft::t('drip', 'event_freeform_submission', ['formName' => $form->getName()]);
             $eventData = new Dataset('events', [
                 'action' => $eventName,
@@ -203,7 +203,7 @@ class DripService extends Component
 
             if ($gdprConsentRequired && $gdprConsentProvided) {
                 $this->updateDripSubscriberFreeform($formHandle, $formFields, 'granted', $gdprConsentText);
-            } else if (!$gdprConsentRequired) {
+            } elseif (!$gdprConsentRequired) {
                 $this->updateDripSubscriberFreeform($formHandle, $formFields);
             }
         }
@@ -220,7 +220,6 @@ class DripService extends Component
 
     public function updateDripSubscriber($user)
     {
-
         $fields = [];
         $settings = Drip::$plugin->getSettings();
 
@@ -264,7 +263,6 @@ class DripService extends Component
 
     public function updateDripSubscriberFreeform(string $formHandle, array $formFields, $gdprConsent = null, $gdprText = null)
     {
-
         $fields = [];
         $settings = Drip::$plugin->getSettings();
 
@@ -277,7 +275,7 @@ class DripService extends Component
             $value = $formField->getValue();
 
             // freeform email field type value is array
-            if ($formField instanceof EmailField) {
+            if ($formField instanceof \Solspace\Freeform\Fields\EmailField) {
                 $value = is_array($value) ? $value[0] : $value;
             }
 
@@ -355,7 +353,6 @@ class DripService extends Component
      */
     protected function formIsEnabled($settings, $formHandle)
     {
-
         foreach ($settings['freeform'] as $key => $form) {
             if ($key == $formHandle) {
                 return array_key_exists('enabled', $settings['freeform'][$key]) && $settings['freeform'][$key]['enabled'] == 1;
@@ -372,7 +369,6 @@ class DripService extends Component
      */
     protected function settingIsEnabled($settings, $formHandle, $setting)
     {
-
         foreach ($settings['freeform'] as $key => $form) {
             if ($key == $formHandle) {
                 return array_key_exists($setting, $settings['freeform'][$key]) && $settings['freeform'][$key][$setting] == 1;
