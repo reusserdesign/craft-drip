@@ -53,9 +53,9 @@
 {# The content of the CP Section#}
 {% set content %}
     <h2>{{ "Getting started" | t('drip') }}</h2>
-    <p>You will need an account at <a href="https://www.getdrip.com/">getdrip.com</a>to use this plugin.</p>
+    <p>You will need an account at <a href="https://www.getdrip.com/">getdrip.com</a> to use this plugin.</p>
     <p>Once you have signed up the plugin can be connected to your Drip account in the
-        <a href="/drip/settings/drip">settings</a> using the account ID and API key provided by Drip.
+        <a href="{{ pluginCpUrl }}/settings/drip">settings</a> using the account ID and API key provided by Drip.
     </p>
     <h2>Features</h2>
     <p>The plugin can be used record events in Drip when a visitor performs certain actions.</p>
