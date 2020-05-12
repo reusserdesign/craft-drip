@@ -20,18 +20,21 @@ use craft\services\Plugins;
 use craft\services\Elements;
 use craft\events\PluginEvent;
 use craft\web\UrlManager;
+use craft\web\View;
 
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\twig\variables\CraftVariable;
 use craft\services\Users;
 use craft\events\UserEvent;
 
+use craft\commerce\elements\Order;
+use craft\commerce\events\LineItemEvent;
+
 use Solspace\Freeform\Services\FormsService;
 use Solspace\Freeform\Events\Forms\AfterSubmitEvent;
 
 use yii\base\Event;
 use yii\web\User;
-use yii\web\View;
 
 /**
  * Class Drip
@@ -112,6 +115,7 @@ class Drip extends Plugin
                 $event->rules['drip/settings/drip'] = 'drip/settings/load-settings';
                 $event->rules['drip/settings/core'] = 'drip/settings/load-settings';
                 $event->rules['drip/settings/freeform'] = 'drip/settings/load-settings';
+                $event->rules['drip/settings/commerce'] = 'drip/settings/load-settings';
             }
         );
 
@@ -165,7 +169,8 @@ class Drip extends Plugin
             'drip/settings',
             [
                 'settings' => $this->getSettings()
-            ]
+            ],
+            View::TEMPLATE_MODE_CP
         );
     }
 
@@ -274,5 +279,32 @@ class Drip extends Plugin
                 }
             );
         }
+
+        /**
+         * Craft Commerce cart and order update
+         * http://docs.solspace.com/craft/freeform/v2/developer/events-and-hooks.html#submissions
+         */
+
+        if (Craft::$app->plugins->isPluginInstalled('commerce')) {
+            Event::on(
+                Order::class,
+                Order::EVENT_AFTER_ADD_LINE_ITEM,
+                function(LineItemEvent $event) {
+                    Drip::$plugin->dripService->addShopperCartActivityDripEvent($event);
+                }
+            );
+
+            Event::on(
+                Order::class,
+                Order::EVENT_AFTER_COMPLETE_ORDER,
+                function(Event $event) {
+                    // @var Order $order
+                    $order = $event->sender;
+                    Drip::$plugin->dripService->addShopperOrderActivityDripEvent($order);
+                }
+            );
+
+        }
+
     }
 }

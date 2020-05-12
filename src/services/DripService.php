@@ -17,6 +17,10 @@ use extreme\drip\Drip;
 use extreme\drip\helpers\DripRequest;
 use extreme\drip\helpers\Dataset;
 use extreme\drip\helpers\DripException;
+
+use craft\commerce\elements\Order;
+use craft\commerce\events\LineItemEvent;
+
 use Solspace\Freeform\Events\Forms\AfterSubmitEvent;
 use Solspace\Freeform\Events\Submissions\SubmitEvent;
 use Solspace\Freeform\Library\Composer\Components\Fields\EmailField;
@@ -127,6 +131,184 @@ class DripService extends Component
 
             if ($event === 'update') {
                 $this->updateDripSubscriber($user);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Method used to record all core drip events
+     * In case of update event subscriber data is also updated in addition to logging the event
+     *
+     * @param LineItemEvent $event
+     * @return bool
+     */
+
+    public function addShopperCartActivityDripEvent(LineItemEvent $event)
+    {
+
+
+        $user = $event->lineItem->getOrder()->getUser();
+        if($user) {
+
+            $order = $event->lineItem->getOrder();
+            $items = $order->getLineItems();
+
+            $lineItems = [];
+            foreach($items as $li) {
+                $properties = [
+                    'product_id' => $li->purchasable->product->id,
+                    'product_variant_id' => $li->purchasableId,
+                    'sku' => $li->sku,
+                    'name' => $li->purchasable->title,
+                    'price' => $li->price,
+                    'quantity' => (int) $li->qty,
+                    'discounts' => abs($li->getDiscount()),
+                    'total' => $li->total,
+                    'product_url' => $li->purchasable->product->url,
+                    'image_url' => $li->purchasable->product->productImages ? $li->purchasable->product->productImages->one()->url : '',
+                ];
+                $lineItems[] = $properties;
+            }
+
+            // $lineItems = [];
+
+            $result = [];
+            $settings = Drip::$plugin->getSettings();
+
+            if ($settings->commerce['cart']['enabled'] == 1) {
+                $eventName = Craft::t('drip', 'event_commerce_cart');
+                $eventData = [
+                    'provider' => 'craft_commerce',
+                    'email' => $user->email,
+                    'action' => 'updated',
+                    'cart_id' => $order->shortNumber,
+                    'occurred_at' => date('c'),
+                    'grand_total' => $order->total,
+                    'total_discounts' => abs($order->getTotalDiscount()),
+                    'cart_url' => $order->returnUrl,
+                    'items' => $lineItems,
+                    'properties' => [
+                        'source' => 'Drip Plugin'
+                    ]
+                ];
+
+                try {
+                    $result = $this->drip->post('v3', 'shopper_activity/cart', $eventData)->get();
+                } catch (DripException $e) {
+                    Craft::error($e->getMessage(), 'drip');
+                }
+
+                if (array_key_exists('errors', $result)) {
+                    foreach ($result['errors'] as $error) {
+                        Craft::error($error->message, 'drip');
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Method used to record all core drip events
+     * In case of update event subscriber data is also updated in addition to logging the event
+     *
+     * @param Order $order
+     * @return bool
+     */
+
+    public function addShopperOrderActivityDripEvent(Order $order)
+    {
+
+
+        $user = $order->getUser();
+        if($user) {
+
+            $items = $order->getLineItems();
+
+            $lineItems = [];
+            foreach($items as $li) {
+                $properties = [
+                    'product_id' => $li->purchasable->product->id,
+                    'product_variant_id' => $li->purchasableId,
+                    'sku' => $li->sku,
+                    'name' => $li->purchasable->title,
+                    'price' => $li->price,
+                    'quantity' => (int) $li->qty,
+                    'discounts' => abs($li->getDiscount()),
+                    'total' => $li->total,
+                    'product_url' => $li->purchasable->product->url,
+                    'image_url' => $li->purchasable->product->productImages ? $li->purchasable->product->productImages->one()->url : '',
+                ];
+                $lineItems[] = $properties;
+            }
+
+            $result = [];
+            $settings = Drip::$plugin->getSettings();
+
+            if ($settings->commerce['cart']['enabled'] == 1) {
+                $eventData = [
+                    'provider' => 'craft_commerce',
+                    'email' => $user->email,
+                    'action' => 'placed',
+                    'order_id' => $order->shortNumber,
+                    'occurred_at' => date('c'),
+                    'grand_total' => $order->total,
+                    'total_discounts' => abs($order->getTotalDiscount()),
+                    'total_taxes' => $order->getTotalTax(),
+                    'total_shipping' => $order->getTotalShippingCost(),
+                    'cart_url' => $order->returnUrl,
+                    'items' => $lineItems,
+                    'properties' => [
+                        'source' => 'Drip Plugin'
+                    ]
+                ];
+
+                $address = $order->getBillingAddress();
+                $billing_address = [
+                    'label' => $address->title,
+                    'first_name' => $address->firstName,
+                    'last_name' => $address->lastName,
+                    'company' => $address->businessName,
+                    'address_1' => $address->address1,
+                    'address_2' => $address->address2,
+                    'city' => $address->city,
+                    'state' => $address->stateName,
+                    'postal_code' => $address->zipCode,
+                    'country' => $address->countryText
+                ];
+
+                $address = $order->getShippingAddress();
+                $shipping_address = [
+                    'label' => $address->title,
+                    'first_name' => $address->firstName,
+                    'last_name' => $address->lastName,
+                    'company' => $address->businessName,
+                    'address_1' => $address->address1,
+                    'address_2' => $address->address2,
+                    'city' => $address->city,
+                    'state' => $address->stateName,
+                    'postal_code' => $address->zipCode,
+                    'country' => $address->countryText
+                ];
+
+                $eventData['billing_address'] = $billing_address;
+                $eventData['shipping_address'] = $shipping_address;
+
+                try {
+                    $result = $this->drip->post('v3', 'shopper_activity/order', $eventData)->get();
+                } catch (DripException $e) {
+                    Craft::error($e->getMessage(), 'drip');
+                }
+
+                if (array_key_exists('errors', $result)) {
+                    foreach ($result['errors'] as $error) {
+                        Craft::error($error->message, 'drip');
+                    }
+                }
             }
         }
 

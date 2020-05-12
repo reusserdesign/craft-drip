@@ -1,0 +1,56 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Drip eCRM Connector plugin for Craft CMS 3.x
+ *
+ * Drip eCRM Connector Settings.twig
+ *
+ * @author    Extreme
+ * @copyright Copyright (c) 2019 Extreme
+ * @link      madebyextreme.com
+ * @package   Drip
+ * @since     1.0.0
+ */
+#}
+
+{% extends "drip/_layouts/settings" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+
+    <h2>{{ "{plugin} Events" | t('drip', {'plugin': 'Commerce Events'}) }}</h2>
+
+    <input type="hidden" name="action" value="drip/settings/save-settings">
+
+    {{ redirectInput('drip/settings/commerce') }}
+    {{ csrfInput() }}
+
+
+    <p>{{ 'commerce_introduction' | t('drip') }}</p>
+    <p>{{ 'drip_field_refresh_intro' | t('drip') }}</p>
+    <p><a class="btn submit" id="field-refresh" href="/actions/drip/settings/test-connection">{{ 'drip_field_refresh' | t('drip') }}</a></p>
+
+    <h3>Cart Tracking</h3>
+
+    {% set enabled = 0 %}
+
+    {% if settings['commerce'] is defined and settings['commerce']['cart'] is defined and settings['commerce']['cart']['enabled'] is defined and settings['commerce']['cart']['enabled'] == 1 %}
+
+        {% set enabled = 1 %}
+
+    {% endif %}
+
+    {{ forms.lightswitchField({
+        label: 'Enable {name} tracking' | t( 'drip', { 'name': 'cart and order'} ),
+        instructions: 'Enable to track {name} events' | t( 'drip', {'name': 'cart and order'}  ),
+        id: 'cart',
+        name: 'settings[commerce][cart][enabled]',
+        on: enabled
+    }) }}
+
+    <hr>
+
+    <div></div>
+
+{% endblock %}

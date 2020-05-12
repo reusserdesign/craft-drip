@@ -61,7 +61,11 @@ return [
     'event_core_login' => 'User Account Login',
     'event_core_logout' => 'User Account Logout',
     'event_core_update' => 'User Account Update',
+    'event_commerce_cart' => 'Cart Update',
     'Enable to track events for the {name}' => 'Enable to track events on the {name}',
+    'Enable to track {name} events' =>  'Enable to track {name} events',
+    'Enable {name} tracking' => 'Enable {name} tracking',
     'drip_save_to_test' => 'Save your API token and account id then click below to test the connection to Drip.',
-    'drip_test_api' => 'Test API Connection'
+    'drip_test_api' => 'Test API Connection',
+    'commerce_introduction' => 'Configure below to record events in Drip when a user updates their cart.',
 ];
