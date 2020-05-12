@@ -42,8 +42,8 @@
     {% endif %}
 
     {{ forms.lightswitchField({
-        label: 'Enable {name} tracking' | t( 'drip', { 'name': 'cart'} ),
-        instructions: 'Enable to track {name} events' | t( 'drip', {'name': 'cart'}  ),
+        label: 'Enable {name} tracking' | t( 'drip', { 'name': 'cart and order'} ),
+        instructions: 'Enable to track {name} events' | t( 'drip', {'name': 'cart and order'}  ),
         id: 'cart',
         name: 'settings[commerce][cart][enabled]',
         on: enabled

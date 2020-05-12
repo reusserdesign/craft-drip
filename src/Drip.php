@@ -28,7 +28,6 @@ use craft\services\Users;
 use craft\events\UserEvent;
 
 use craft\commerce\elements\Order;
-use craft\commerce\models\LineItem;
 use craft\commerce\events\LineItemEvent;
 
 use Solspace\Freeform\Services\FormsService;
@@ -282,7 +281,7 @@ class Drip extends Plugin
         }
 
         /**
-         * Craft Commerce cart update
+         * Craft Commerce cart and order update
          * http://docs.solspace.com/craft/freeform/v2/developer/events-and-hooks.html#submissions
          */
 
@@ -294,6 +293,17 @@ class Drip extends Plugin
                     Drip::$plugin->dripService->addShopperCartActivityDripEvent($event);
                 }
             );
+
+            Event::on(
+                Order::class,
+                Order::EVENT_AFTER_COMPLETE_ORDER,
+                function(Event $event) {
+                    // @var Order $order
+                    $order = $event->sender;
+                    Drip::$plugin->dripService->addShopperOrderActivityDripEvent($order);
+                }
+            );
+
         }
 
     }
