@@ -29,6 +29,19 @@
 
 {% endif %}
 
+{% set commercePlugin = craft.app.plugins.getPlugin('commerce', false) %}
+
+{% if commercePlugin is not null and commercePlugin.isInstalled %}
+
+    {% set navItems = navItems | merge([
+        {
+            'slug':'commerce',
+            'title':'Commerce Events' | t('drip')
+        }
+    ]) %}
+
+{% endif %}
+
 {% set selectedItem = craft.app.request.getSegment(3) ?: 'drip' %}
 {#<!--{% set docTitle = navItems[selectedItem].title~' - '~title %}-->#}
 

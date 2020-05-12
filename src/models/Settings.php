@@ -70,6 +70,11 @@ class Settings extends Model
     /**
      * @var array
      */
+    public $commerce = [];
+
+    /**
+     * @var array
+     */
     public $core = [
         'create' => [
             'enabled' => false,
