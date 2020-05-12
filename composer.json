@@ -1,7 +1,7 @@
 {
     "name": "bborders/drip",
     "description": "Drip connector for Craft 3.x",
-    "version": "1.1.0",
+    "version": "1.1.2",
     "type": "craft-plugin",
     "keywords": [
         "craft",
