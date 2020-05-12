@@ -20,6 +20,7 @@ use craft\services\Plugins;
 use craft\services\Elements;
 use craft\events\PluginEvent;
 use craft\web\UrlManager;
+use craft\web\View;
 
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\twig\variables\CraftVariable;
@@ -31,7 +32,6 @@ use Solspace\Freeform\Events\Forms\AfterSubmitEvent;
 
 use yii\base\Event;
 use yii\web\User;
-use yii\web\View;
 
 /**
  * Class Drip
@@ -165,7 +165,8 @@ class Drip extends Plugin
             'drip/settings',
             [
                 'settings' => $this->getSettings()
-            ]
+            ],
+            View::TEMPLATE_MODE_CP
         );
     }
 

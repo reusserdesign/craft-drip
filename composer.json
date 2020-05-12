@@ -1,5 +1,5 @@
 {
-    "name": "extreme/drip",
+    "name": "bborders/drip",
     "description": "Drip connector for Craft 3.x",
     "type": "craft-plugin",
     "keywords": [
