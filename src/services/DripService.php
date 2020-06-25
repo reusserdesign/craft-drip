@@ -167,7 +167,7 @@ class DripService extends Component
                     'discounts' => abs($li->getDiscount()),
                     'total' => $li->total,
                     'product_url' => $li->purchasable->product->url,
-                    'image_url' => $li->purchasable->product->productImages ? $li->purchasable->product->productImages->one()->url : '',
+                    'image_url' => $li->purchasable->product->productImages->one() ? $li->purchasable->product->productImages->one()->url : '',
                 ];
                 $lineItems[] = $properties;
             }
