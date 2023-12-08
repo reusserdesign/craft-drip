@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Drip plugin for Craft CMS 3.x
  *
@@ -25,25 +26,13 @@ class Settings extends Model
     // Public Properties
     // =========================================================================
 
-    /**
-     * @var string
-     */
-    public $dripApiToken = '';
+    public string $dripApiToken = '';
 
-    /**
-     * @var string
-     */
-    public $dripAccountId = '';
+    public string $dripAccountId = '';
 
-    /**
-     * @var string
-     */
-    public $dripSnippet = '';
+    public string $dripSnippet = '';
 
-    /**
-     * @var array
-     */
-    public $dripCoreFields = [
+    public array $dripCoreFields = [
         'first_name' => 'First Name',
         'last_name' => 'Last Name',
         'email' => 'Email Address',
@@ -57,25 +46,13 @@ class Settings extends Model
         'zip' => 'Zip'
     ];
 
-    /**
-     * @var array
-     */
-    public $dripCustomFields = [];
+    public array $dripCustomFields = [];
 
-    /**
-     * @var array
-     */
-    public $freeform = [];
+    public array $freeform = [];
 
-    /**
-     * @var array
-     */
-    public $commerce = [];
+    public array $commerce = [];
 
-    /**
-     * @var array
-     */
-    public $core = [
+    public array $core = [
         'create' => [
             'enabled' => false,
             'event' => ''
@@ -94,37 +71,23 @@ class Settings extends Model
         ]
     ];
 
-    /**
-     * @var array
-     */
-
-    public $coreFieldsDefault = [
+    public array $coreFieldsDefault = [
         'email' => 'Email',
         'firstName' => 'First Name',
         'lastName' => 'Last Name'
     ];
 
-    /**
-     * @var array
-     */
-
-    public $coreFieldsCustom = [];
+    public array $coreFieldsCustom = [];
 
 
     // Public Methods
     // =========================================================================
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
+    public function rules(): array
     {
         return [];
     }
 
-    /**
-     * @return string
-     */
     public function getDripAccountId(): string
     {
         return Craft::parseEnv($this->dripAccountId);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Drip plugin for Craft CMS 3.x
  *
@@ -15,6 +16,7 @@ use extreme\drip\models\Settings;
 use extreme\drip\variables\DripVariable;
 
 use Craft;
+use craft\base\Model;
 use craft\base\Plugin;
 use craft\services\Plugins;
 use craft\services\Elements;
@@ -63,7 +65,7 @@ class Drip extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public string $schemaVersion = '1.0.0';
 
     /**
      *  Holds the api connection
@@ -155,7 +157,7 @@ class Drip extends Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?Model
     {
         return new Settings();
     }
@@ -178,7 +180,7 @@ class Drip extends Plugin
      * @return array|null
      */
 
-    public function getCpNavItem()
+    public function getCpNavItem(): ?array
     {
         $subNavs = [];
         $navItem = parent::getCpNavItem();
@@ -289,7 +291,7 @@ class Drip extends Plugin
             Event::on(
                 Order::class,
                 Order::EVENT_AFTER_ADD_LINE_ITEM,
-                function(LineItemEvent $event) {
+                function (LineItemEvent $event) {
                     Drip::$plugin->dripService->addShopperCartActivityDripEvent($event);
                 }
             );
@@ -297,14 +299,12 @@ class Drip extends Plugin
             Event::on(
                 Order::class,
                 Order::EVENT_AFTER_COMPLETE_ORDER,
-                function(Event $event) {
+                function (Event $event) {
                     // @var Order $order
                     $order = $event->sender;
                     Drip::$plugin->dripService->addShopperOrderActivityDripEvent($order);
                 }
             );
-
         }
-
     }
 }

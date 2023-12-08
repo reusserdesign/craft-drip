@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Drip eCRM Connector plugin for Craft CMS 3.x
  *
@@ -51,7 +52,7 @@ class SettingsController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['index'];
+    protected array|int|bool $allowAnonymous = ['index'];
 
     // Public Methods
     // =========================================================================

@@ -147,9 +147,7 @@ class DripService extends Component
 
     public function addShopperCartActivityDripEvent(LineItemEvent $event)
     {
-
-
-        $user = $event->lineItem->getOrder()->getUser();
+        $user = $event->lineItem->getOrder()->getCustomer();
         if($user) {
 
             $order = $event->lineItem->getOrder();
@@ -222,9 +220,7 @@ class DripService extends Component
 
     public function addShopperOrderActivityDripEvent(Order $order)
     {
-
-
-        $user = $order->getUser();
+        $user = $order->getCustomer();
         if($user) {
 
             $items = $order->getLineItems();
