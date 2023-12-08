@@ -1,5 +1,5 @@
 {
-    "name": "bborders/drip",
+    "name": "extreme/drip",
     "description": "Drip connector for Craft 3.x",
     "version": "1.1.2",
     "type": "craft-plugin",
@@ -11,21 +11,22 @@
         "drip"
     ],
     "support": {
-        "docs": "https://github.com/BrandonJamesBorders/drip/blob/master/README.md"
+        "docs": "https://github.com/extreme-creations/drip/blob/master/README.md",
+        "issues": "https://github.com/extreme-creations/drip/issues"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": "Reusser Design",
-            "homepage": "https://reusserdesign.com/"
+            "name": "Extreme",
+            "homepage": "https://madebyextreme.com"
         }
     ],
     "require": {
-        "craftcms/cms": "^3.2.0"
+        "craftcms/cms": "^4.0.0"
     },
     "autoload": {
         "psr-4": {
-          "extreme\\drip\\": "src/"
+            "extreme\\drip\\": "src/"
         }
     },
     "extra": {
@@ -33,7 +34,7 @@
         "handle": "drip",
         "hasCpSettings": true,
         "hasCpSection": true,
-        "changelogUrl": "https://github.com/BrandonJamesBorders/drip/blob/master/CHANGELOG.md",
+        "changelogUrl": "https://github.com/extreme-creations/drip/blob/master/CHANGELOG.md",
         "components": {
             "dripService": "extreme\\drip\\services\\DripService"
         },
