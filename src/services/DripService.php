@@ -125,7 +125,7 @@ class DripService extends Component
 
             if (array_key_exists('errors', $result)) {
                 foreach ($result['errors'] as $error) {
-                    Craft::error($error->message, 'drip');
+                    Craft::error(json_encode($error), 'drip');
                 }
             }
 
