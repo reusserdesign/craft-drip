@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2019 Extreme
  */
 
-namespace extreme\drip\assetbundles\Drip;
+namespace extreme\drip\assetbundles\drip;
 
 use Craft;
 use craft\web\AssetBundle;
